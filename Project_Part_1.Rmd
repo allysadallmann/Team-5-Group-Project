@@ -23,34 +23,12 @@ When you click the **Knit** button a document will be generated that includes bo
 
 You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-
-```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ```{r}
 dataset <- read.csv("ai4i2020.csv") %>% data.frame()
 dataset
-```
-
-
-```{r}
-dataset %>% mutate(difference = Process.temperature..K.-Air.temperature..K.) %>% 
-  filter(difference<8.6 & Tool.wear..min.>200 & Tool.wear..min.<240)
-  
-```
-
-
-```{r}
-means <- dataset %>% summarize(twf_failure = mean(TWF)*100, 
-                      hdf_failure = mean(HDF)*100,
-                      pwf_failure = mean(PWF)*100,
-                      osf_failure = mean(OSF)*100,
-                      rnf_failure = mean(RNF)*100)
-means
-
-means %>% ggplot() + geom_bar(aes, stat = "summary", fun = "mean")
 ```
 
 
@@ -64,33 +42,5 @@ prop_failures <- dataset %>%
   ylab('Proportion of failures') + xlab('Type of failure') + theme(legend.position='none')
 prop_failures
 
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
 ```
 
