@@ -1,0 +1,20 @@
+---
+title: "Readme"
+author: "michaelm31"
+date: "2022-10-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+This is the Readme for Group 5's SDS 322e project, a probabilistic classification task that tries to predict whether a machine failure occurs or not.
+Group Members: 
+Goals:
+Data: https://archive.ics.uci.edu/ml/machine-learning-databases/00601/, data info: https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset
+Data Description:This is a realistic, synthetic maintenance dataset. If at least one of the failure modes, described in the data description, is true, the process fails and the 'machine failure' label is set to 1. It is therefore not transparent to the machine learning method, which of the failure modes has caused the process to fail. Our goal is to predict whether a failure occurs or not. 
+
+References:
+
