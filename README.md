@@ -3,8 +3,6 @@ README
 Group 5
 October 10, 2022
 
-## Readme
-
 This is the Readme for Group 5’s SDS 322e project, a probabilistic
 classification task that tries to predict whether a machine failure
 occurs or not.
