@@ -33,8 +33,8 @@ any of the failure modes, and classify it as a failure or not.
 <https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset>
 
 **Data Description**: This is a realistic, synthetic maintenance
-dataset. If at least one of the failure modes, described in the data
-description, is true, the process fails and the ‘machine failure’ label
+dataset. If at least one of the failure modes, described in the [criterias for machine failure](#Criterias-for-which-a-machine fails),
+is true, the process fails and the ‘machine failure’ label
 is set to 1. It is therefore not transparent to the machine learning
 method, which of the failure modes has caused the process to fail. Our
 goal is to predict whether a failure occurs or not.
@@ -56,7 +56,7 @@ variant-specific serial number
 in this particular datapoint for any of the following failure modes are
 true.
 
-**Criterias for which a machine fails:**  
+## **Criterias for which a machine fails**  
 - Tool wear failure (TWF): if the tool wear is between 200- 240 mins  
 - Heat dissipation failure (HDF): if the difference between air- and
 process temperature is below 8.6 K and the tool’s rotational speed is
