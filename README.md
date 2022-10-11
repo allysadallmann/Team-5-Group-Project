@@ -56,7 +56,7 @@ variant-specific serial number
 in this particular datapoint for any of the following failure modes are
 true.
 
-## **Criterias for which a machine fails**  
+## Criterias for which a machine fails  
 - Tool wear failure (TWF): if the tool wear is between 200- 240 mins  
 - Heat dissipation failure (HDF): if the difference between air- and
 process temperature is below 8.6 K and the tool’s rotational speed is
