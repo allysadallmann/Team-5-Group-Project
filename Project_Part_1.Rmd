@@ -1,7 +1,6 @@
 ---
 title: "Project_Part_1"
-author: "Kayla"
-date: "2022-10-10"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: html_document
 ---
 
@@ -28,7 +27,7 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 ```{r}
 dataset <- read.csv("ai4i2020.csv") %>% data.frame()
-dataset
+str(dataset)
 ```
 
 
@@ -39,7 +38,8 @@ prop_failures <- dataset %>%
   pivot_longer(everything()) %>% 
   ggplot()+
   geom_bar(aes(name, value, fill=name), stat='identity') + theme_classic() +
-  ylab('Proportion of failures') + xlab('Type of failure') + theme(legend.position='none')
+  ylab('Proportion of failures') + xlab('Type of failure') + theme(legend.position='none') +ggtitle('Proportion of failures by Type')
+
 prop_failures
 
 ```
