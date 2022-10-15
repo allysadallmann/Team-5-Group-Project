@@ -8,9 +8,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-raw_df <- read.csv("ai4i2020.csv") %>% 
-  data.frame()
+library(dplyr)
+library(tidyverse)
+raw_df <- as.data.frame(read.csv("ai4i2020.csv"))
 str(raw_df)
+?read.csv
 ```
 
 ```{r}
