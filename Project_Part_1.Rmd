@@ -15,11 +15,11 @@ str(raw_df)
 
 ```{r}
 raw_df %>% 
-  ggplot(mapping = aes(Air_temperature, HDF)) +
+  ggplot(mapping = aes(Air.temperature..K., HDF)) +
   geom_point() +
-  ylab('Machine Failure Label') + 
+  ylab('Heat Dissipation Failure') + 
   xlab('Air Temperature [K]') + 
-  ggtitle("Machine Learning Failure Prediction with Air Temperature [K]") +
+  ggtitle("Heat Dissipation Failure Prediction with Air Temperature [K]") +
   theme(plot.title = element_text(hjust = 0.5))
-```
 
+```
