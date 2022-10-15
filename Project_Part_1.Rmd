@@ -1,0 +1,27 @@
+---
+title: "Project_Part_1"
+author: "Shreya Nallaparaju"
+date: "2022-10-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+raw_df <- read.csv("ai4i2020.csv") %>% 
+  data.frame()
+str(raw_df)
+```
+
+```{r}
+raw_df %>% 
+  ggplot(mapping = aes(Air_temperature, HDF)) +
+  geom_point() +
+  ylab('Machine Failure Label') + 
+  xlab('Air Temperature [K]') + 
+  ggtitle("Machine Learning Failure Prediction with Air Temperature [K]") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
