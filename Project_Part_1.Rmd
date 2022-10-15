@@ -1,7 +1,5 @@
 ---
 title: "Project_Part_1"
-author: "Shreya Nallaparaju"
-date: "2022-10-14"
 output: html_document
 ---
 
