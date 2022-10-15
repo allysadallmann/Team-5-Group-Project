@@ -31,12 +31,12 @@ raw_df %>%
 stacked_df <- cbind(raw_df[c(1, 9)], stack(raw_df[4:8])) %>% 
   rename('feature'='ind', 'hdf'='Machine.failure', 'value'='values')
 
-stacked_df$varType <- as.factor(stacked_df$feature)
+stacked_df$feature <- as.factor(stacked_df$feature)
 
 stacked_df %>% 
   ggplot(aes(x=value, y=hdf, group=feature)) +
-  geom_point() +
+  geom_point(alpha=.5) +
   stat_smooth(aes(group=feature), method='glm', method.args=list(family=binomial)) +
-  facet_wrap(~feature, scales="free_x") +
+  facet_wrap(.~feature, scales="free_x") +
   ggtitle('Heat Dissipation Failure Prediction across Different Features')
 ```
