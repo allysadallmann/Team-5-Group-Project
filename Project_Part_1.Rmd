@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
 ```
 
 ```{r}
@@ -12,10 +12,10 @@ library(dplyr)
 library(tidyverse)
 raw_df <- as.data.frame(read.csv("ai4i2020.csv"))
 str(raw_df)
-?read.csv
 ```
 
 ```{r}
+# PLOT1: HDF vs. Air Temp.
 raw_df %>% 
   ggplot(mapping = aes(Air.temperature..K., HDF)) +
   geom_point() +
@@ -24,4 +24,19 @@ raw_df %>%
   ggtitle("Heat Dissipation Failure Prediction with Air Temperature [K]") +
   theme(plot.title = element_text(hjust = 0.5))
 
+
+# PLOT2: HDF across all features
+
+# Stack the features so we can facet on them when plotting
+stacked_df <- cbind(raw_df[c(1, 9)], stack(raw_df[4:8])) %>% 
+  rename('feature'='ind', 'hdf'='Machine.failure', 'value'='values')
+
+stacked_df$varType <- as.factor(stacked_df$feature)
+
+stacked_df %>% 
+  ggplot(aes(x=value, y=hdf, group=feature)) +
+  geom_point() +
+  stat_smooth(aes(group=feature), method='glm', method.args=list(family=binomial)) +
+  facet_wrap(~feature, scales="free_x") +
+  ggtitle('Heat Dissipation Failure Prediction across Different Features')
 ```
