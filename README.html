@@ -388,16 +388,17 @@ artificial intelligence into explainable dialogues for the end user.
 This data classifies relevant variables that correlate to five
 independent failure modes: tool wear failure, heat dissipation failure,
 power failure, overstrain failure, and random failures. If the criteria
-for at least one aforementioned failure modes is met, the process fails
-and the ‘machine failure’ label is set to 1. Therefore, it is not
-transparent to the machine learning method which of the failure modes or
-their respective components has caused the process to fail.<br />
-By plotting the components of machine failure (air temperature,
+for at least one aforementioned failure modes (see <a href="#Criterias-for-which-a-machine-fails">criterias for machine
+failure</a> )is met, the process fails and the ‘machine failure’ label
+is set to 1. Therefore, it is not transparent to the machine learning
+method which of the failure modes or their respective components has
+caused the process to fail.</p>
+<p>By plotting the components of machine failure (air temperature,
 rotational speed, torque, etc.) to the machine failure label (HDF) in
 the dataset, we can more clearly discern the parameters influencing the
 end ML-derived machine failure output. The derived visualizations are
-probabilitistic models that account for the impact of randomness
-alongside the specified variable of interest in predicting the potential
+probabilistic models that account for the impact of randomness alongside
+the specified variable of interest in predicting the potential
 occurrence of future events — the progression to machine failure. Thus,
 when analyzing the distribution of the data points from the plots, one
 may identify transition points, characterized as the point at which HDF
@@ -440,20 +441,28 @@ variant-specific serial number<br />
 - ‘machine failure’ label that indicates, whether the machine has failed
 in this particular datapoint for any of the following failure modes are
 true.</p>
-<p><strong>Criterias for which a machine fails:</strong><br />
-- Tool wear failure (TWF): if the tool wear is between 200- 240
+<div id="criterias-for-which-a-machine-fails" class="section level3">
+<h3>Criterias for which a machine fails</h3>
+<ul>
+<li>Tool wear failure (TWF): if the tool wear is between 200- 240
 mins<br />
-- Heat dissipation failure (HDF): if the difference between air- and
+</li>
+<li>Heat dissipation failure (HDF): if the difference between air- and
 process temperature is below 8.6 K and the tool’s rotational speed is
 below 1380 rpm<br />
-- Power failure (PWF): if the product of tool wear and torque speed
+</li>
+<li>Power failure (PWF): if the product of tool wear and torque speed
 (rad/s) equals power required. If this power is below 3500 W or above
 9000 W, the process fails<br />
-- Overstrain failure (OSF): If the product of tool wear and torque
+</li>
+<li>Overstrain failure (OSF): If the product of tool wear and torque
 exceeds 11,000 minNm for the L product variant (12,000 M, 13,000
 H)<br />
-- Random failures (RNF): each process 0.1% chance of failure regardless
-of its process parameters.</p>
+</li>
+<li>Random failures (RNF): each process 0.1% chance of failure
+regardless of its process parameters.</li>
+</ul>
+</div>
 </div>
 <div id="references" class="section level2">
 <h2><strong>References</strong></h2>
