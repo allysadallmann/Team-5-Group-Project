@@ -1,0 +1,67 @@
+---
+title: "Project part 2"
+author: ""
+output:
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    code_folding: hide
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Load libraries that we use
+```{r}
+library(tidyverse)
+library(data.table)
+```
+
+# Cleaning the data
+Our goal is to predict if a machine part fails in general, therefore the names of the types of failure (TWF, HDF, etc.) becomes redundant, and we can aggregate all failure labels into a single column, `label`.  
+```{r}
+# import the data
+df <- as.data.frame(read.csv("ai4i2020.csv"))
+df <- df %>% select(-Product.ID) %>% 
+  mutate(failure.type = 1)
+head(df)
+
+sum(is.na(df)) # Our data has no missing values
+```
+
+Here, we recode categorical values into numerical, scale the data, and drop redundant/unimportant column so we can focus on failure or no failure.  
+
+The values for different features are on different scales, therefore we decided to scale the data.  
+Note that, because the `Type` feature was originally categorical, we leave its numbers as is and only scale columns that contain measurements and would be meaningful to scale.
+
+We are interested only if a machine part fails or not, therefore we drop specific types of failures and only use `Machine.failure`.
+As an aside, it is possible for a machine part to fail due to more than one failure type. In our dataset, there were 24 of such machine parts.
+
+Keep `UDI` so we can uniquely identify each observation.
+
+```{r}
+# Convert the string values for `Type` into numerical values: `L`, `M`, `H` into `1`, `2`, `3`, respectively.  
+df$Type <- as.numeric(c('L'='1', 'M'='2', 'H'='3')[df$Type])
+df[4:7] <- scale(df[4:7])
+
+total_failures_per_part <- df %>% mutate(total = select(., 9:13) %>% rowSums()) %>% pull(total)
+sum(total_failures_per_part>1) # machines that failed due to multiple fail types
+
+# drop failure types
+df <- df[1:8]
+
+# clean column names
+names(df) <- sub("[\\.]{2}.*", "", names(df))
+head(df)
+
+# export the cleaned data
+fwrite(df, "clean_data.csv")
+```
+
+
+
