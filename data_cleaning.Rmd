@@ -7,9 +7,6 @@ output:
     toc_depth: 4
     toc_float: yes
     code_folding: hide
-  pdf_document:
-    toc: yes
-    toc_depth: '4'
 date: "`r Sys.Date()`"
 ---
 
@@ -47,7 +44,7 @@ Keep `UDI` so we can uniquely identify each observation.
 ```{r}
 # Convert the string values for `Type` into numerical values: `L`, `M`, `H` into `1`, `2`, `3`, respectively.  
 df$Type <- as.numeric(c('L'='1', 'M'='2', 'H'='3')[df$Type])
-df[4:7] <- scale(df[4:7])
+df[3:7] <- scale(df[3:7])
 
 total_failures_per_part <- df %>% mutate(total = select(., 9:13) %>% rowSums()) %>% pull(total)
 sum(total_failures_per_part>1) # machines that failed due to multiple fail types
@@ -60,7 +57,7 @@ names(df) <- sub("[\\.]{2}.*", "", names(df))
 head(df)
 
 # export the cleaned data
-fwrite(df, "clean_data.csv")
+#fwrite(df, "clean_data_scaled.csv")
 ```
 
 
