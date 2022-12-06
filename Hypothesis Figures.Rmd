@@ -1,0 +1,187 @@
+---
+title: "Project Hypothesis Code"
+author: "Allysa"
+date: "2022-11-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(tidyverse)
+library(dplyr)
+
+data <- read.csv(file = '/stor/home/ard3696/data/ai4i2020.csv')
+data_clean <- data %>% select(-UDI, - Product.ID)
+data_clean
+
+```
+
+
+```{r}
+head(data_clean)
+```
+
+
+```{r}
+data_clean %>% 
+  select(-Rotational.speed..rpm., -Tool.wear..min., -Air.temperature..K., -Process.temperature..K., -Torque..Nm.) %>% 
+  group_by(Type) %>% 
+  filter(TWF == 1 | HDF == 1 | PWF == 1 | OSF == 1 | RNF == 1 ) #%>% summarize(n = n()) %>% mutate(prop = n/sum(n) * 100)
+```
+```{r}
+data_clean %>% 
+  select(TWF, HDF, PWF, OSF, RNF) %>% 
+  summarize_all(mean) %>%
+  pivot_longer(everything())
+
+```
+```{r}
+### HYPOTHESIS 1
+
+data_clean %>% 
+  select(TWF, HDF, PWF, OSF, RNF) %>% 
+  summarize_all(mean) %>% 
+  pivot_longer(everything()) %>% 
+  mutate(value = value*100) %>%
+  ggplot()+
+  geom_bar(aes(name, value, fill = name), stat='identity') +
+  xlab("Failure Type") + ylab("Probability of Failure (%)") + 
+  scale_fill_manual(values = c('#FE4365', '#FC9D9A', '#F9CDAD', '#C8C8A9', '#83AF9B'), name = "Failure") +
+  ggtitle('Figure 1. Most Common Failure Type') + theme_classic()
+  
+
+```
+
+
+```{r}
+data_clean$Type <- factor(data_clean$Type, levels = c('L', 'M', 'H'))
+data_clean <- data_clean %>% mutate(Diff.temp..K. = Process.temperature..K. - Air.temperature..K.)
+data_clean <- data_clean %>% mutate(NumFails = TWF + HDF + PWF + OSF + RNF)
+data_clean
+```
+
+```{r}
+data_clean %>% filter(NumFails > 0) %>% select(Type, NumFails) %>% group_by(Type, NumFails) %>% summarize(n = n()) %>% mutate(prop = n/sum(n) * 100)
+
+```
+```{r}
+### HYPOTHESIS 2
+
+data_clean %>% filter(NumFails > 0) %>% ggplot(aes(x=NumFails, fill=Type)) + geom_histogram(bins = 3) +
+theme(legend.position=c(.8,.8), legend.direction = "horizontal") + xlab('Number of Failures') + ylab('Count')+ theme_classic() + scale_fill_manual(values = c("#E8175D", "#FF847C", '#FECEAB')) + ggtitle('Figure 2. Quality of Products and Failures')
+```
+
+```{r}
+#data_clean %>% filter(NumFails > 0) %>% select(Type, NumFails) %>% group_by(Type, NumFails) %>% summarize(n = n()) %>% mutate(prop = n/sum(n) * 100) %>% ggplot(aes(x = NumFails)) + geom_bar(aes(y = prop))
+```
+```{r}
+data_NumFails1 <- data_clean %>% filter(NumFails == 1) %>% select(Type, NumFails) %>% group_by(Type) %>% summarize(count = n()) 
+data_NumFails1$fraction = data_NumFails1$fraction = data_NumFails1$count / sum(data_NumFails1$count)
+data_NumFails1$ymax = cumsum(data_NumFails1$fraction)
+data_NumFails1$ymin = c(0, head(data_NumFails1$ymax, n=-1))
+
+# Compute label position
+data_NumFails1$labelPosition <- (data_NumFails1$ymax + data_NumFails1$ymin) / 2
+
+# Compute a good label
+data_NumFails1$label <- paste0(data_NumFails1$Type, "\n value: ", format(round(data_NumFails1$fraction*100, 0), nsmall = 0), "%")
+
+# Make the plot
+ggplot(data_NumFails1, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Type)) +
+  geom_rect() +
+  geom_label( x=3.5, aes(y=labelPosition, label=label), size=6) +
+  coord_polar(theta="y") +
+  xlim(c(2.5, 4)) +
+  theme_void() +
+  theme(legend.position = "none") + scale_fill_manual(values = c("#E8175D", "#FF847C", '#FECEAB'))
+```
+
+
+```{r}
+data_NumFails1 <- data_clean %>% filter(NumFails == 2) %>% select(Type, NumFails) %>% group_by(Type) %>% summarize(count = n()) 
+data_NumFails1$fraction = data_NumFails1$fraction = data_NumFails1$count / sum(data_NumFails1$count)
+data_NumFails1$ymax = cumsum(data_NumFails1$fraction)
+data_NumFails1$ymin = c(0, head(data_NumFails1$ymax, n=-1))
+
+# Compute label position
+data_NumFails1$labelPosition <- (data_NumFails1$ymax + data_NumFails1$ymin) / 2
+
+# Compute a good label
+data_NumFails1$label <- paste0(data_NumFails1$Type, "\n value: ", format(round(data_NumFails1$fraction*100, 0), nsmall = 0), "%")
+
+# Make the plot
+ggplot(data_NumFails1, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Type)) +
+  geom_rect() +
+  geom_label( x=3.5, aes(y=labelPosition, label=label), size=6) +
+  coord_polar(theta="y") +
+  xlim(c(2.5, 4)) +
+  theme_void() +
+  theme(legend.position = "none") + scale_fill_manual(values = c("#E8175D", "#FF847C", '#FECEAB'))
+```
+
+
+```{r}
+data_NumFails1 <- data_clean %>% filter(NumFails == 3) %>% select(Type, NumFails) %>% group_by(Type) %>% summarize(count = n()) 
+data_NumFails1$fraction = data_NumFails1$fraction = data_NumFails1$count / sum(data_NumFails1$count)
+data_NumFails1$ymax = cumsum(data_NumFails1$fraction)
+data_NumFails1$ymin = c(0, head(data_NumFails1$ymax, n=-1))
+
+# Compute label position
+data_NumFails1$labelPosition <- (data_NumFails1$ymax + data_NumFails1$ymin) / 2
+
+# Compute a good label
+data_NumFails1$label <- paste0(data_NumFails1$Type, "\n value: ", format(round(data_NumFails1$fraction*100, 0), nsmall = 0), "%")
+
+# Make the plot
+ggplot(data_NumFails1, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Type)) +
+  geom_rect() +
+  geom_label( x=3.5, aes(y=labelPosition, label=label), size=6) +
+  coord_polar(theta="y") +
+  xlim(c(2.5, 4)) +
+  theme_void() +
+  theme(legend.position = "none") + scale_fill_manual(values = c('#FECEAB', "#FF847C", '#FECEAB'))
+```
+
+
+```{r}
+### HYPOTHESIS 3
+
+library(wesanderson)
+
+data_clean_features <- data_clean %>% select(-TWF, -HDF, -PWF, -OSF, -RNF, -Diff.temp..K., -NumFails)
+data_clean_features <- setNames(data_clean_features, c('Type', 'Air Temp. (K)', 'Proc. Temp. (K)', 'Rot. Speed (rpm)', 'Torque (Nm)', 'Tool Wear (min)', 'Failure'))
+
+# Check correlations (as scatterplots), distribution and print corrleation coefficient 
+ggpairs(data_clean_features, columns = 2:7, ggplot2::aes(colour=Type)) + theme_classic() + scale_colour_manual(values = wes_palette("GrandBudapest1", n = 3)) +  scale_fill_manual(values = wes_palette("GrandBudapest1", n = 3)) + ggtitle('Figure 3. ')
+```
+
+
+```{r}
+### HYPOTHESIS 4
+data_clean %>% ggplot(aes(x=Rotational.speed..rpm., fill=Type)) + geom_density(alpha=0.7, bw=5) + facet_grid(rows = vars(HDF)) + xlim(1200, 1500) + ylim(0, 0.022) + xlab('Rotational Speed (rpm)') + ylab('Density') + geom_vline(xintercept=1380, size=1, color="black", linetype = "dashed") + theme_classic() +  scale_fill_manual(values = c("#E8175D", "#FF847C", '#FECEAB')) + ggtitle('Figure 4. HDF Failure with Rotational Speed')
+```
+
+
+```{r}
+### HYPOTHESIS 5
+data_clean %>% ggplot(aes(x=Rotational.speed..rpm., y=Diff.temp..K., color=Type)) + 
+  facet_grid(rows = vars(HDF), scales = "free") + 
+  geom_smooth(method='lm') + 
+  xlim(1200, 1500) + 
+  xlab('Rotational Speed (rpm)') + 
+  ylab('Process - Air Temperature (K)') + 
+  theme_classic() + 
+  scale_color_manual(values = wes_palette("GrandBudapest1", n = 3)) + 
+  scale_fill_manual(values = wes_palette("GrandBudapest1", n = 3)) +
+  ggtitle('Figure 5. Temperature Difference and Rotational Speed')
+
+```
+
+
+```{r}
+```
