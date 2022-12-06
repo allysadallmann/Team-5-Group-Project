@@ -1,7 +1,7 @@
 ---
 title: "SDS 322E Final Project"
 author: "Group 5"
-date: "December 04, 2022"
+date: "December 06, 2022"
 output: 
   html_document:
     keep_md: yes
@@ -10,7 +10,7 @@ output:
 
 
 ## Applying Data Science to Predict Machine Failure
-Welcome to Group 5's SDS 322e project, a probabilistic classification task that tries to predict whether a machine failure occurs or not. On this page, we describe our project, key goals, and our dataset. To learn more, click [here] for our project report and [here](https://github.com/allysadallmann/Team-5-Group-Project) for our project repo.
+Welcome to Group 5's SDS 322e project, a probabilistic classification task that tries to predict whether a machine failure occurs or not. On this page, we describe our project, key goals, and our dataset. To learn more, click [here](./SDS 332E Final Project Report.pdf) for our project report and [here](https://github.com/allysadallmann/Team-5-Group-Project) for our project repo.
 
 **Group Members**: Allysa Dallman, Michael Montez, Shreya Nallaparaju, Jonathan Saldeen,Sebastian Utama,  Kayla White, Emily Zhou
 
